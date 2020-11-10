@@ -7,3 +7,43 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+# windowing
+winit = "0.23.0"
+
+# graphics
+wgpu = "0.6.0"
+
+# physics
+nphysics3d = "0.18"
+bvh = "0.3"
+
+# linear math
+nalgebra = "0.23"
+
+# audio
+ambisonic = "0.3"
+
+# utils
+## module loading
+gltf = "0.15.2"
+obj-rs = "0.6.2"
+## image loading
+image = "0.23.6"
+## audio loading(pending) // we have rodio in ambisonic
+## text to texture(pending)
+rusttype = "0.9.2"
+## scripting language(pending) // python? pyo3
+## serialize
+serde = "1.0"
+serde_json = "1.0"
+
+
+
+# # platform specific
+# [target.'cfg(windows)'.dependencies]
+# winapi = { version = "0.3.9", features = ["windef", "winuser"] }
+
+# [target.'cfg(target_os = "macos")'.dependencies]
+# cocoa = "0.20.2"
+# objc = "0.2.7"
