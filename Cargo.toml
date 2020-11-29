@@ -4,12 +4,26 @@ version = "0.1.0"
 authors = ["lemonhx"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "libgefs"
+path = "src/lib.rs"
+
+[[demo1]]
+name = "demo1"
+path = "src/main.rs"
+
 
 [dependencies]
+# fuck rust
+ctor = "0.1.16"
+futures = "0.3"
+async-std = "1.7.0"
 
 # windowing
 winit = "0.23.0"
+
+# gamepads
+gilrs = "0.8.0"
 
 # graphics
 wgpu = "0.6.0"
@@ -20,7 +34,7 @@ bvh = "0.3"
 
 # linear math
 nalgebra = "0.23"
-
+nalgebra-glm = "0.3"
 # audio
 ambisonic = "0.3"
 
