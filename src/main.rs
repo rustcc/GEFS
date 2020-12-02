@@ -1,9 +1,13 @@
-use libgefs::core::input::{InputGamepad, InputPC};
+use std::any::TypeId;
 
-async fn setup() {}
-fn run() {
+use libgefs::{utils::window::Window, core::{input::InputGamepad, storage::GameStorage, input::InputPC}};
+use winit::{event::Event, dpi::LogicalSize, event::WindowEvent, event_loop::ControlFlow};
+
+
+
+async fn test() {
     use gilrs::Gilrs;
-
+    
     let mut gilrs = Gilrs::new().unwrap();
 
     // Iterate over all connected gamepads
@@ -13,15 +17,10 @@ fn run() {
     let mut gamepad_stat = InputGamepad::new();
     let mut pcinput_stat = InputPC::new();
 
-    use winit::{
-        event::{Event, WindowEvent},
-        event_loop::{ControlFlow, EventLoop},
-        window::WindowBuilder,
-    };
+    
+    let Window{events_loop,window} = Window::init("fuck me", LogicalSize::new(1024, 768)).await;
 
-    let event_loop = EventLoop::new();
-    let window = WindowBuilder::new().build(&event_loop).unwrap();
-    event_loop.run(move |event, _, control_flow| {
+    events_loop.run(move |event, _, control_flow| {
         // ControlFlow::Poll continuously runs the event loop, even if the OS hasn't
         // dispatched any events. This is ideal for games and similar applications.
         *control_flow = ControlFlow::Poll;
@@ -37,17 +36,18 @@ fn run() {
             Event::MainEventsCleared => {
                 // Application update code.
                 if let Some(gilrs::Event { id, event, time }) = gilrs.next_event() {
-                    // println!("{:?} New event from {}: {:?}", time, id, event);
                     gamepad_stat.update_events(&gilrs::Event { id, event, time });
                     println!("{:?}",gamepad_stat);
                     
                 }
                 // println!("{:?}",pcinput_stat);
+                // self.update()
                 window.request_redraw();
             }
             Event::RedrawRequested(_) => {
                 // Redraw the application.
                 // println!("redraw~");
+                // self.next_frame();
             }
             e => {
                 pcinput_stat.update_events(&e);
@@ -56,7 +56,8 @@ fn run() {
         }
     });
 }
+
 fn main() {
     println!("Hello, world!");
-    run();
+    async_std::task::block_on(test());
 }
