@@ -29,6 +29,8 @@ gilrs = "0.8"
 
 # graphics
 wgpu = "0.6"
+wgpu-subscriber = "0"
+shaderc = "0.7.0"
 
 # physics
 nphysics3d = "0.18"
