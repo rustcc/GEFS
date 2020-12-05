@@ -1,0 +1,5 @@
+{
+    "name": "triangle",
+    "vertex" : "test_tri.vert",
+    "fragment" : "test_tri.frag"
+}
