@@ -20,8 +20,8 @@ impl Into<ShaderKind> for ShaderStage{
 }
 
 pub struct Shader{
-    stage: ShaderStage,
-    module: wgpu::ShaderModule,
+    pub stage: ShaderStage,
+    pub module: wgpu::ShaderModule,
 }
 
 

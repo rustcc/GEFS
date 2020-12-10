@@ -1,4 +1,5 @@
 pub mod window;
+pub mod render_target;
 
 #[allow(dead_code)]
 #[inline(always)]

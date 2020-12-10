@@ -1,6 +1,6 @@
 use std::any::TypeId;
 
-use libgefs::{utils::window::Window, core::{input::InputGamepad, storage::GameStorage, input::InputPC}};
+use libgefs::{core::{graphics::GraphicsBackend, input::InputGamepad, input::InputPC, storage::GameStorage}, utils::window::Window};
 use winit::{event::Event, dpi::LogicalSize, event::WindowEvent, event_loop::ControlFlow};
 
 
@@ -19,8 +19,15 @@ async fn test() {
 
     
     let Window{events_loop,window} = Window::init("fuck me", LogicalSize::new(1024, 768)).await;
-
-    events_loop.run(move |event, _, control_flow| {
+    let GraphicsBackend{            surface,
+        size,
+        instance,
+        adapter,
+        device,
+        queue,
+        swap_chain} = GraphicsBackend::init(&window).await.unwrap();
+    
+     events_loop.run(move |event, _, control_flow| {
         // ControlFlow::Poll continuously runs the event loop, even if the OS hasn't
         // dispatched any events. This is ideal for games and similar applications.
         *control_flow = ControlFlow::Poll;

@@ -6,7 +6,7 @@ use super::shader::{Shader, ShaderStage};
 
 
 pub struct ShaderManager{
-    pub ShaderManager: HashMap<String,HashMap<ShaderStage,Arc<Shader>>>,
+    pub shader_manager: HashMap<String,HashMap<ShaderStage,Arc<Shader>>>,
 }
 impl ShaderManager{
     pub async fn add_from_config<T:Into<PathBuf>>(&mut self,    device: Arc<wgpu::Device>,path:T)->Option<()>{
@@ -36,7 +36,7 @@ impl ShaderManager{
             let shader = Shader::new(device.clone(), &(format!("{}{}",name,".comp")), path.join(comp_path), ShaderStage::Vertex).await?;
             table.insert(ShaderStage::Vertex,shader);  
         }
-        self.ShaderManager.insert(name.clone(), table);
+        self.shader_manager.insert(name.clone(), table);
         Some(())
     }
 }
@@ -70,8 +70,8 @@ fn test_ShaderManager(){
             .unwrap();
 
         let device = Arc::new(device);
-        let mut s = ShaderManager{ShaderManager: HashMap::new()};
+        let mut s = ShaderManager{shader_manager: HashMap::new()};
         s.add_from_config(device, "./assets/ShaderManager/").await.unwrap();
-        assert!(s.ShaderManager.get("triangle").is_some() == true);
+        assert!(s.shader_manager.get("triangle").is_some() == true);
     });
 }
