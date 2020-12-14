@@ -9,6 +9,11 @@ pub struct ShaderManager{
     pub shader_manager: HashMap<String,HashMap<ShaderStage,Arc<Shader>>>,
 }
 impl ShaderManager{
+    pub fn new()->Self{
+        Self{
+            shader_manager:HashMap::new()
+        }
+    }
     pub async fn add_from_config<T:Into<PathBuf>>(&mut self,    device: Arc<wgpu::Device>,path:T)->Option<()>{
         // config path
         /*
@@ -29,14 +34,16 @@ impl ShaderManager{
             table.insert(ShaderStage::Vertex,shader);  
         }
         if let Some(frag_path) = config.get("fragment".into()){
-            let shader = Shader::new(device.clone(), &(format!("{}{}",name,".frag")), path.join(frag_path), ShaderStage::Vertex).await?;
-            table.insert(ShaderStage::Vertex,shader);  
+            let shader = Shader::new(device.clone(), &(format!("{}{}",name,".frag")), path.join(frag_path), ShaderStage::Fragment).await?;
+            table.insert(ShaderStage::Fragment,shader);  
         }
         if let Some(comp_path) = config.get("compute".into()){
-            let shader = Shader::new(device.clone(), &(format!("{}{}",name,".comp")), path.join(comp_path), ShaderStage::Vertex).await?;
-            table.insert(ShaderStage::Vertex,shader);  
+            let shader = Shader::new(device.clone(), &(format!("{}{}",name,".comp")), path.join(comp_path), ShaderStage::Compute).await?;
+            table.insert(ShaderStage::Compute,shader);  
         }
         self.shader_manager.insert(name.clone(), table);
+        
+        println!("shader loaded {:?}",self.shader_manager);
         Some(())
     }
 }
@@ -71,7 +78,7 @@ fn test_ShaderManager(){
 
         let device = Arc::new(device);
         let mut s = ShaderManager{shader_manager: HashMap::new()};
-        s.add_from_config(device, "./assets/ShaderManager/").await.unwrap();
+        s.add_from_config(device, "./assets/shaders/test_tri").await.unwrap();
         assert!(s.shader_manager.get("triangle").is_some() == true);
     });
 }

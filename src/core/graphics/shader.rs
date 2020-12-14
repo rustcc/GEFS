@@ -1,4 +1,4 @@
-use std::{any::TypeId, borrow::Cow, collections::HashMap, sync::Arc, path::Path};
+use std::{any::TypeId, borrow::Cow, collections::HashMap, fmt::Debug, path::Path, sync::Arc};
 
 use async_std::path::PathBuf;
 use shaderc::ShaderKind;
@@ -18,12 +18,11 @@ impl Into<ShaderKind> for ShaderStage{
         }
     }
 }
-
+#[derive(Debug)]
 pub struct Shader{
     pub stage: ShaderStage,
     pub module: wgpu::ShaderModule,
 }
-
 
 async fn compile_shader<T:Into<PathBuf>>(path:T,kind: ShaderStage,name:&String,device: Arc<wgpu::Device>) -> Option<ShaderModule>{
     let path = path.into();

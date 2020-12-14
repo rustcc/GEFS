@@ -3,7 +3,7 @@ use std::sync::Arc;
 use wgpu::BindGroupLayout;
 
 use super::{FRAME_FORMAT, resource_manager::GPUResourceManager, shader::ShaderStage, shader_manager::ShaderManager};
-#[derive(Clone)]
+#[derive(Clone,Debug)]
 pub struct VertexBufferDescriptor{
     // offset
     pub stride: wgpu::BufferAddress,
@@ -11,7 +11,7 @@ pub struct VertexBufferDescriptor{
     // how attributes packed
     pub attrs : Vec<wgpu::VertexAttributeDescriptor>,
 }
-#[derive(Clone)]
+#[derive(Clone,Debug)]
 pub struct VertexStateBuilder{
     pub index_format: wgpu::IndexFormat,
     pub buffer_desc: Vec<VertexBufferDescriptor>,
@@ -24,7 +24,7 @@ impl VertexStateBuilder {
         }
     }
 }
-#[derive(Clone)]
+#[derive(Clone,Debug)]
 pub struct PipelineDescriptor {
     pub shader: String,
     pub vertex_state: VertexStateBuilder,
@@ -151,7 +151,7 @@ impl PipelineDescriptor{
         }
     }
 }
-
+#[derive(Debug)]
 pub struct Pipeline {
     pub desc: PipelineDescriptor,
     pub render_pipeline: wgpu::RenderPipeline,
