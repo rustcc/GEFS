@@ -1,6 +1,6 @@
 use std::{any::TypeId, sync::Arc};
 
-use libgefs::{core::{graphics::{GraphicsBackend, pipeline::{Pipeline, PipelineDescriptor}, pipeline_manager::{CommandQueueItem, PipelineManager, PipelineType}, resource_manager::GPUResourceManager, shader_manager::ShaderManager}, input::InputGamepad, input::InputPC, storage::GameStorage}, utils::window::Window};
+use libgefs::{application::AppState, core::{graphics::{GraphicsBackend, pipeline::{Pipeline, PipelineDescriptor}, pipeline_manager::{CommandQueueItem, PipelineManager, PipelineType}, resource_manager::GPUResourceManager, shader_manager::ShaderManager}, input::InputGamepad, input::InputPC, storage::GameStorage}, utils::window::Window};
 use nalgebra::{Point3, Vector3};
 use wgpu::SwapChainDescriptor;
 use winit::{dpi::LogicalSize, event::Event, event::WindowEvent, event_loop::ControlFlow};
@@ -65,7 +65,7 @@ async fn test() {
     //     sample_mask: !0,
     //     alpha_to_coverage_enabled: false,
     // });
-
+    let mut app = AppState::new();
     events_loop.run(move |event, _, control_flow| {
         // ControlFlow::Poll continuously runs the event loop, even if the OS hasn't
         // dispatched any events. This is ideal for games and similar applications.
@@ -93,7 +93,6 @@ async fn test() {
                 // Redraw the application.
                 // println!("redraw~");
                 // self.next_frame();
-
                 let frame = swap_chain
                     .get_current_frame()
                     .expect("Failed to acquire next swap chain texture")
@@ -114,17 +113,21 @@ async fn test() {
                             depth_stencil_attachment: None,
                         });
                         let pl = pipeline_manager.pipelines.get("triangle".into()).unwrap();
-                        if let PipelineType::GraphicPipeline(pl) = pl{
+                        if let PipelineType::GraphicPipeline(pl) = pl {
                             rpass.set_pipeline(&pl.render_pipeline);
-                            rpass.draw(0..3, 0..1);
+
                         }else{
                             panic!("fuck me");
                         }
+                        rpass.draw(0..3, 0..1);
 
                     };
                 let qi = CommandQueueItem{name:"triangle".into(),buffer:encoder.finish()};
                 let subq = pipeline_manager.collect_buffers(&mut vec![qi]);
+                
                 queue.submit(subq);
+                app.count();
+                println!("app: {:?}",app);
             }
             e => {
                 pcinput_stat.update_events(&e);
