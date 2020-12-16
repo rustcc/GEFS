@@ -6,6 +6,7 @@ pub mod shader_manager;
 pub mod shader;
 pub mod pipeline_manager;
 pub mod pipeline;
+pub mod texture;
 
 pub const DEPTH_FORMAT: wgpu::TextureFormat = wgpu::TextureFormat::Depth32Float;
 pub const FRAME_FORMAT: wgpu::TextureFormat = wgpu::TextureFormat::Bgra8UnormSrgb;

@@ -40,31 +40,7 @@ async fn test() {
     let gpu = Arc::new(GPUResourceManager::init(device.clone()));
     let pipeline_desc = PipelineDescriptor::new_default("triangle".into());
     pipeline_manager.add_pipeline("triangle", &pipeline_desc, vec![], device.as_ref(), &shader_manager,gpu.clone() ).await;
-    
-    // let render_pipeline = device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
-    //     label: None,
-    //     layout: Some(&pipeline_layout),
-    //     vertex_stage: wgpu::ProgrammableStageDescriptor {
-    //         module: &shader,
-    //         entry_point: "vs_main",
-    //     },
-    //     fragment_stage: Some(wgpu::ProgrammableStageDescriptor {
-    //         module: &shader,
-    //         entry_point: "fs_main",
-    //     }),
-    //     // Use the default rasterizer state: no culling, no depth bias
-    //     rasterization_state: None,
-    //     primitive_topology: wgpu::PrimitiveTopology::TriangleList,
-    //     color_states: &[swapchain_format.into()],
-    //     depth_stencil_state: None,
-    //     vertex_state: wgpu::VertexStateDescriptor {
-    //         index_format: None,
-    //         vertex_buffers: &[],
-    //     },
-    //     sample_count: 1,
-    //     sample_mask: !0,
-    //     alpha_to_coverage_enabled: false,
-    // });
+
     let mut app = AppState::new();
     events_loop.run(move |event, _, control_flow| {
         // ControlFlow::Poll continuously runs the event loop, even if the OS hasn't
@@ -147,5 +123,5 @@ async fn test() {
 
 fn main() {
     println!("Hello, world!");
-    async_std::task::block_on(test());
+    async_std::task::block_on(libgefs::test::cube::test());
 }

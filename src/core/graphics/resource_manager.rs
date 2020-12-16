@@ -19,4 +19,28 @@ impl GPUResourceManager{
             buffers
         }
     }
+    pub fn add_bind_group_layout<T: Into<String>>(
+        &mut self,
+        name: T,
+        bind_group_layout: wgpu::BindGroupLayout,
+    ) {
+        let name = name.into();
+        if self.bind_group_layouts.contains_key(&name) {
+            panic!("fuck me!");
+        }
+        self.bind_group_layouts
+            .insert(name, Arc::new(bind_group_layout));
+    }
+    pub fn add_bind_group<T: Into<String>>(&mut self, key: T, bind_group: BindGroup, id:u32) {
+        let key = key.into();
+        // let bind_group_index = bind_group.index;
+        if self.bind_groups.contains_key(&key) {
+            let bind_groups = self.bind_groups.get_mut(&key).unwrap();
+            bind_groups.insert(id, Arc::new(bind_group));
+        } else {
+            let mut hash_map = HashMap::new();
+            hash_map.insert(id, Arc::new(bind_group));
+            self.bind_groups.insert(key.clone(), hash_map);
+        }
+    }
 }

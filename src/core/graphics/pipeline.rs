@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use wgpu::BindGroupLayout;
+use wgpu::{BindGroupLayout, DepthStencilStateDescriptor};
 
 use super::{FRAME_FORMAT, resource_manager::GPUResourceManager, shader::ShaderStage, shader_manager::ShaderManager};
 #[derive(Clone,Debug)]
@@ -57,12 +57,17 @@ impl PipelineDescriptor{
                 alpha_blend: wgpu::BlendDescriptor::REPLACE,
                 write_mask: wgpu::ColorWrite::ALL,
             }],
-            depth_state: None,
+            depth_state: Some(wgpu::DepthStencilStateDescriptor {
+                format: wgpu::TextureFormat::Depth32Float,
+                depth_write_enabled: true,
+                depth_compare: wgpu::CompareFunction::Less, // 1.
+                stencil: wgpu::StencilStateDescriptor::default(), // 2.
+            }),
             sample_count: 1,
             sampler_mask: !0,
             alpha_to_coverage_enabled: false,
             layouts: Vec::new(),
-            front_face: wgpu::FrontFace::Cw,
+            front_face: wgpu::FrontFace::Ccw,
             cull_mode: wgpu::CullMode::Back,
             depth_bias: 0,
             depth_bias_slope_scale: 0.0.into(),

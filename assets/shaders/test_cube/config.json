@@ -1,0 +1,5 @@
+{
+    "name": "cube",
+    "vertex" : "test_cube.vert",
+    "fragment" : "test_cube.frag"
+}

@@ -20,7 +20,8 @@ futures = "0.3"
 async-std = "1.7"
 async-trait = "0.1"
 rayon = "1.5"
-bytemuck = "1.4.1"
+bytemuck = "1.4"
+bytemuck_derive = "*"
 solvent = "0.8.1"
 
 # windowing
